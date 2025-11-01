@@ -1,0 +1,49 @@
+name: MERN App CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'
+
+    - name: Install Backend Dependencies
+      run: |
+        cd backend
+        npm install
+
+    - name: Install Frontend Dependencies
+      run: |
+        cd frontend
+        npm install
+
+    - name: Build Frontend
+      run: |
+        cd frontend
+        npm run build
+
+    - name: Build and Push Docker Images
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      run: |
+        docker-compose build
+        # Add your docker login and push commands here
+        # docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+        # docker push your-docker-username/todo-mern-frontend:latest
+        # docker push your-docker-username/todo-mern-backend:latest
+
+    # Add deployment steps here based on your hosting platform
+    # - name: Deploy
+    #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    #   run: |
+    #     # Add your deployment commands
