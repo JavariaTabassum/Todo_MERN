@@ -14,7 +14,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    image: ${DOCKER_USERNAME}/todo-mern-backend:latest
+    image: javaria725/todo-mern-backend:latest
     ports:
       - "5000:5000"
     depends_on:
@@ -28,7 +28,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    image: ${DOCKER_USERNAME}/todo-mern-frontend:latest
+    image: javaria725/todo-mern-frontend:latest
     ports:
       - "80:80"
     depends_on:
